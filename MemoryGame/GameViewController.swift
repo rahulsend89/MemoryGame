@@ -14,10 +14,10 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var currentImage: UIImageView!
     
     let gameController = MemoryGame()
-    var _isPlaying:Bool = false
-    var _numberOfCards:Int = 9
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -37,6 +37,12 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - Methods
     
     func resetGame() {
+        for cell in collectionView.visibleCells {
+            if let cellBlock = cell as? BlockCVC{
+                cellBlock.card?.image = UIImage()
+            }
+        }
+        currentImage.image = UIImage()
         gameController.isPlaying  = false
         collectionView.isUserInteractionEnabled = false
         collectionView.reloadData()
@@ -59,28 +65,24 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: error))")
             ErrorHandler.sharedInstance.ProcessError(error!)
         }) { (returnObject) in
-            if let responseObj = returnObject , responseObj.isKind(of: PhotoModel.self) {
-                guard let photoModelResponse: PhotoModel = returnObject as? PhotoModel else {
-                    LogHelper.sharedInstance.log("Something is not right :(")
-                    return
-                }
-                var arrayImages:[UIImage] = []
-                var outDataArray = photoModelResponse.photo!
-                outDataArray.shuffle()
-                for (photo) in outDataArray.prefix(9) {
-                    LogHelper.sharedInstance.log(" : \(photo.imageString) : ");
-                    ServiceManager.sharedInstance.imageWithURL(ServiceConfig.sharedInstance.getImage(returnPath: photo.imageString), handlerError: { (_error) in
-                        LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: _error))")
-                        ErrorHandler.sharedInstance.ProcessError(_error!)
-                    }) { (_responseData) in
-                      arrayImages.append(UIImage(data: _responseData as! Data)!)
-                        if(arrayImages.count == 9){
-                            ActivityIndicator.sharedInstance.hide()
-                            self.gameController.newGame(arrayImages)
-                        }
+            guard let photoModelResponse: PhotoModel = returnObject as? PhotoModel else {
+                LogHelper.sharedInstance.log("Something is not right :(")
+                return
+            }
+            var arrayImages:[UIImage] = []
+            var outDataArray = photoModelResponse.photo!
+            outDataArray.shuffle()
+            for (photo) in outDataArray.prefix(MemoryGame.maxGrid) {
+                ServiceManager.sharedInstance.imageWithURL(ServiceConfig.sharedInstance.getImage(returnPath: photo.imageString), handlerError: { (_error) in
+                    LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: _error))")
+                    ErrorHandler.sharedInstance.ProcessError(_error!)
+                }) { (_responseData) in
+                    arrayImages.append(UIImage(data: _responseData as! Data)!)
+                    if(arrayImages.count == MemoryGame.maxGrid){
+                        ActivityIndicator.sharedInstance.hide()
+                        self.gameController.newGame(arrayImages)
                     }
                 }
-                
             }
         }
     }
@@ -92,12 +94,12 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return gameController.numberOfCards > 0 ? gameController.numberOfCards : 9
+        return gameController.numberOfBlocks > 0 ? gameController.numberOfBlocks : MemoryGame.maxGrid
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cardCell", for: indexPath) as! BlockCVC
-        cell.showCard(false, animted: false)
+        cell.showBlock(true, animted: false)
         
         guard let card = gameController.blockAtIndex(indexPath.item) else { return cell }
         cell.card = card
@@ -111,7 +113,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.cellForItem(at: indexPath) as! BlockCVC
         
         if cell.shown { return }
-        gameController.didSelectCard(cell.card)
+        gameController.didSelectBlock(cell.card)
         
         collectionView.deselectItem(at: indexPath, animated:true)
     }
@@ -131,31 +133,49 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func memoryGameDidStart(_ game: MemoryGame) {
         collectionView.reloadData()
         collectionView.isUserInteractionEnabled = true
+        
+        let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            self.memoryGameHideAll()
+        }
+        
     }
     
-    func memoryGame(_ game: MemoryGame, showCards cards: [Block]) {
+    func memoryGameSelectRandom(_ game: MemoryGame, selectImage: UIImage) {
+        currentImage.image = selectImage
+    }
+    
+    func memoryGame(_ game: MemoryGame, showBlocks cards: [Block]) {
         for card in cards {
-            guard let index = gameController.indexForCard(card) else { continue }
+            guard let index = gameController.indexForBlock(card) else { continue }
             let cell = collectionView.cellForItem(at: IndexPath(item: index, section:0)) as! BlockCVC
-            cell.showCard(true, animted: true)
+            cell.showBlock(true, animted: true)
         }
     }
     
-    func memoryGame(_ game: MemoryGame, hideCards cards: [Block]) {
+    func memoryGame(_ game: MemoryGame, hideBlocks cards: [Block]) {
         for card in cards {
-            guard let index = gameController.indexForCard(card) else { continue }
+            guard let index = gameController.indexForBlock(card) else { continue }
             let cell = collectionView.cellForItem(at: IndexPath(item: index, section:0)) as! BlockCVC
-            cell.showCard(false, animted: true)
+            cell.showBlock(false, animted: true)
+        }
+    }
+    
+    func memoryGameHideAll() {
+        for cell in collectionView.visibleCells {
+            if let cellBlock = cell as? BlockCVC{
+                cellBlock.showBlock(false, animted: true)
+            }
         }
     }
     
     
     func memoryGameDidEnd(_ game: MemoryGame) {
         
-        
         let alertController = UIAlertController(
-            title: NSLocalizedString("Hurrah!", comment: "title"),
-            message: String(format: "%@", NSLocalizedString("You finished the game in", comment: "message")),
+            title: NSLocalizedString("Awesome!", comment: "title"),
+            message: String(format: "%@", NSLocalizedString("You finished the game :)", comment: "message")),
             preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Dismiss", comment: "dismiss"), style: .cancel) { [weak self] (action) in

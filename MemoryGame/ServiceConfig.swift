@@ -51,7 +51,7 @@ class ServiceConfig: NSObject {
     func getMyPhotoUrl() -> ConfigURL {
         let returnPath: String = "/services/rest/"
         let parameters = ["method":"flickr.photos.search",
-                          "api_key":"1c83f8b8d6c88c440ee1e8fc58c0ee08",
+                          "api_key":"253496f1555ec7f187ea1a7bc2daff43",
                           "tags":"game",
                           "page":"1",
                           "format":"json",

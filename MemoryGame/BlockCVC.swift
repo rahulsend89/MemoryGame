@@ -1,5 +1,5 @@
 //
-//  CardCVC.swift
+//  BlockCVC.swift
 //  MemoryGame
 //
 //  Created by Rahul Malik on 7/15/17.
@@ -25,7 +25,7 @@ class BlockCVC: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func showCard(_ show: Bool, animted: Bool) {
+    func showBlock(_ show: Bool, animted: Bool) {
         frontImageView.isHidden = false
         backImageView.isHidden = false
         shown = show

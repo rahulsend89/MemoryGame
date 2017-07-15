@@ -139,8 +139,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
     
     func getFileResponse(_ myurl: String, intoClass: ModelClass.Type, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) {
         let path = Bundle.main.path(forResource: myurl, ofType: "json", inDirectory: nil)
-        let priority = DispatchQueue.GlobalQueuePriority.background
-        DispatchQueue.global(priority: priority).async {
+        DispatchQueue.global(qos: .background).async {
             var readError: NSError?
             do {
                 guard let path_ = path else {

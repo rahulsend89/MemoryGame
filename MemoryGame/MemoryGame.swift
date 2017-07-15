@@ -15,9 +15,11 @@ import UIKit.UIImage
 
 protocol MemoryGameDelegate {
     func memoryGameDidStart(_ game: MemoryGame)
-    func memoryGame(_ game: MemoryGame, showCards blocks: [Block])
-    func memoryGame(_ game: MemoryGame, hideCards blocks: [Block])
+    func memoryGame(_ game: MemoryGame, showBlocks blocks: [Block])
+    func memoryGame(_ game: MemoryGame, hideBlocks blocks: [Block])
+    func memoryGameSelectRandom(_ game: MemoryGame,selectImage:UIImage)
     func memoryGameDidEnd(_ game: MemoryGame)
+    
 }
 
 // MARK: - MemoryGame
@@ -28,12 +30,16 @@ class MemoryGame {
     
     var blocks:[Block] = [Block]()
     var delegate: MemoryGameDelegate?
-    var isPlaying: Bool = false
+    var isPlaying:Bool = false
+    var currentCount:Int = 0
+    var randomBlockArray:[Int] = Array(0...MemoryGame.maxGrid-1)
+    var currentVal:Int = 0
+    static let maxGrid: Int = 9
     
     fileprivate var blocksShown:[Block] = [Block]()
     fileprivate var startTime:Date?
     
-    var numberOfCards: Int {
+    var numberOfBlocks: Int {
         get {
             return blocks.count
         }
@@ -42,10 +48,16 @@ class MemoryGame {
     // MARK: - Methods
     
     func newGame(_ blocksData:[UIImage]) {
-        blocks = randomCards(blocksData)
+        blocks = randomBlocks(blocksData)
         startTime = Date.init()
         isPlaying = true
+        selectRandomImage()
         delegate?.memoryGameDidStart(self)
+    }
+    
+    func selectRandomImage(){
+        currentVal = randomBlockArray[Int(arc4random_uniform(UInt32(randomBlockArray.count)))];
+        delegate?.memoryGameSelectRandom(self, selectImage: (blockAtIndex(currentVal)?.image)!)
     }
     
     func stopGame() {
@@ -55,29 +67,27 @@ class MemoryGame {
         startTime = nil
     }
     
-    func didSelectCard(_ block: Block?) {
+    func didSelectBlock(_ block: Block?) {
         guard let block = block else { return }
         
-        delegate?.memoryGame(self, showCards: [block])
-        
-//        if lastBlock() {
-//            let unpaired = unpairedCard()!
-//            if block.equals(unpaired) {
-//                blocksShown.append(block)
-//            } else {
-//                let unpairedCard = blocksShown.removeLast()
-//                
-//                let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-//                DispatchQueue.main.asyncAfter(deadline: delayTime) {
-//                    self.delegate?.memoryGame(self, hideCards:[block, unpairedCard])
-//                }
-//            }
-//        } else {
-//            blocksShown.append(block)
-//        }
-        
+        delegate?.memoryGame(self, showBlocks: [block])
+        var selected = false
+        if indexForBlock(block) == currentVal {
+            selected = true
+            randomBlockArray.remove(at: randomBlockArray.index(of: currentVal)!)
+            blocksShown.append(block)
+        } else {
+            let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                self.delegate?.memoryGame(self, hideBlocks:[block])
+            }
+        }
         if blocksShown.count == blocks.count {
             finishGame()
+        } else{
+            if(selected){
+                selectRandomImage()
+            }
         }
     }
     
@@ -89,7 +99,7 @@ class MemoryGame {
         }
     }
     
-    func indexForCard(_ block: Block) -> Int? {
+    func indexForBlock(_ block: Block) -> Int? {
         for index in 0...blocks.count-1 {
             if block === blocks[index] {
                 return index
@@ -97,6 +107,7 @@ class MemoryGame {
         }
         return nil
     }
+
     
     fileprivate func finishGame() {
         isPlaying = false
@@ -107,12 +118,12 @@ class MemoryGame {
         return blocksShown.count == 0
     }
     
-    fileprivate func unpairedCard() -> Block? {
-        let unpairedCard = blocksShown.last
-        return unpairedCard
+    fileprivate func unpairedBlock() -> Block? {
+        let unpairedBlock = blocksShown.last
+        return unpairedBlock
     }
     
-    fileprivate func randomCards(_ blocksData:[UIImage]) -> [Block] {
+    fileprivate func randomBlocks(_ blocksData:[UIImage]) -> [Block] {
         var blocks = [Block]()
         for i in 0...blocksData.count-1 {
             let block = Block.init(image: blocksData[i])
