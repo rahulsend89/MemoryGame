@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  MemoryGame
+
+  Created by Rahul Malik on 7/15/17.
+  Copyright © 2017 aceenvisage. All rights reserved.
+*/
+"NETWORK_CONNECTION_NA_HEADER" = "No Network Connection";
+"NETWORK_CONNECTION_NA_MESSAGE" = "Please check your network settings and try again";
+"DEFAULT_ERROR_HEADER" = "System Error";
+"DEFAULT_ERROR_MESSAGE" = "Please Contact your Administrator";

@@ -14,6 +14,21 @@
 		E8C1F31E1F1A302700E604FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8C1F31C1F1A302700E604FF /* LaunchScreen.storyboard */; };
 		E8C1F3271F1A466600E604FF /* BlockCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3261F1A466600E604FF /* BlockCVC.swift */; };
 		E8C1F32A1F1A46C000E604FF /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3291F1A46C000E604FF /* Block.swift */; };
+		E8C1F32C1F1A6FE900E604FF /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F32B1F1A6FE900E604FF /* MemoryGame.swift */; };
+		E8C1F32F1F1A8A1600E604FF /* UrlHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F32E1F1A8A1600E604FF /* UrlHandler.swift */; };
+		E8C1F3311F1A8A3900E604FF /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3301F1A8A3800E604FF /* LogHelper.swift */; };
+		E8C1F3331F1A8A7000E604FF /* PersistentDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3321F1A8A7000E604FF /* PersistentDataHelper.swift */; };
+		E8C1F3351F1A8B0500E604FF /* JsonParsor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3341F1A8B0500E604FF /* JsonParsor.swift */; };
+		E8C1F3371F1A8B2500E604FF /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3361F1A8B2500E604FF /* ErrorHandler.swift */; };
+		E8C1F3391F1A8B3C00E604FF /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3381F1A8B3C00E604FF /* ConcurrentOperation.swift */; };
+		E8C1F33B1F1A8B7E00E604FF /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F33A1F1A8B7E00E604FF /* ServiceConfig.swift */; };
+		E8C1F33D1F1A8BFB00E604FF /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F33C1F1A8BFB00E604FF /* ActivityIndicator.swift */; };
+		E8C1F33F1F1A903700E604FF /* UIAlertControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F33E1F1A903700E604FF /* UIAlertControllerHelper.swift */; };
+		E8C1F3411F1A90F900E604FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8C1F3401F1A90F900E604FF /* Localizable.strings */; };
+		E8C1F3431F1A917700E604FF /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3421F1A917700E604FF /* StringHelper.swift */; };
+		E8C1F3451F1A923700E604FF /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3441F1A923700E604FF /* UIColorExtension.swift */; };
+		E8C1F3471F1A928E00E604FF /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3461F1A928E00E604FF /* PhotoModel.swift */; };
+		E8C1F3491F1A947A00E604FF /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3481F1A947A00E604FF /* ServiceManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +41,21 @@
 		E8C1F31F1F1A302700E604FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8C1F3261F1A466600E604FF /* BlockCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCVC.swift; sourceTree = "<group>"; };
 		E8C1F3291F1A46C000E604FF /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		E8C1F32B1F1A6FE900E604FF /* MemoryGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = "<group>"; };
+		E8C1F32E1F1A8A1600E604FF /* UrlHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlHandler.swift; sourceTree = "<group>"; };
+		E8C1F3301F1A8A3800E604FF /* LogHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
+		E8C1F3321F1A8A7000E604FF /* PersistentDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentDataHelper.swift; sourceTree = "<group>"; };
+		E8C1F3341F1A8B0500E604FF /* JsonParsor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonParsor.swift; sourceTree = "<group>"; };
+		E8C1F3361F1A8B2500E604FF /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		E8C1F3381F1A8B3C00E604FF /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
+		E8C1F33A1F1A8B7E00E604FF /* ServiceConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
+		E8C1F33C1F1A8BFB00E604FF /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		E8C1F33E1F1A903700E604FF /* UIAlertControllerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerHelper.swift; sourceTree = "<group>"; };
+		E8C1F3401F1A90F900E604FF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		E8C1F3421F1A917700E604FF /* StringHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
+		E8C1F3441F1A923700E604FF /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		E8C1F3461F1A928E00E604FF /* PhotoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		E8C1F3481F1A947A00E604FF /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,12 +88,15 @@
 		E8C1F3121F1A302700E604FF /* MemoryGame */ = {
 			isa = PBXGroup;
 			children = (
+				E8C1F32D1F1A8A0800E604FF /* HelperClass */,
 				E8C1F3281F1A46AD00E604FF /* Model */,
 				E8C1F3131F1A302700E604FF /* AppDelegate.swift */,
 				E8C1F3251F1A463900E604FF /* View */,
 				E8C1F3151F1A302700E604FF /* GameViewController.swift */,
+				E8C1F32B1F1A6FE900E604FF /* MemoryGame.swift */,
 				E8C1F3171F1A302700E604FF /* Main.storyboard */,
 				E8C1F31A1F1A302700E604FF /* Assets.xcassets */,
+				E8C1F3401F1A90F900E604FF /* Localizable.strings */,
 				E8C1F31C1F1A302700E604FF /* LaunchScreen.storyboard */,
 				E8C1F31F1F1A302700E604FF /* Info.plist */,
 			);
@@ -82,8 +115,28 @@
 			isa = PBXGroup;
 			children = (
 				E8C1F3291F1A46C000E604FF /* Block.swift */,
+				E8C1F3461F1A928E00E604FF /* PhotoModel.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		E8C1F32D1F1A8A0800E604FF /* HelperClass */ = {
+			isa = PBXGroup;
+			children = (
+				E8C1F32E1F1A8A1600E604FF /* UrlHandler.swift */,
+				E8C1F3481F1A947A00E604FF /* ServiceManager.swift */,
+				E8C1F33A1F1A8B7E00E604FF /* ServiceConfig.swift */,
+				E8C1F3381F1A8B3C00E604FF /* ConcurrentOperation.swift */,
+				E8C1F3441F1A923700E604FF /* UIColorExtension.swift */,
+				E8C1F3301F1A8A3800E604FF /* LogHelper.swift */,
+				E8C1F3361F1A8B2500E604FF /* ErrorHandler.swift */,
+				E8C1F3421F1A917700E604FF /* StringHelper.swift */,
+				E8C1F33E1F1A903700E604FF /* UIAlertControllerHelper.swift */,
+				E8C1F33C1F1A8BFB00E604FF /* ActivityIndicator.swift */,
+				E8C1F3341F1A8B0500E604FF /* JsonParsor.swift */,
+				E8C1F3321F1A8A7000E604FF /* PersistentDataHelper.swift */,
+			);
+			name = HelperClass;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8C1F31E1F1A302700E604FF /* LaunchScreen.storyboard in Resources */,
+				E8C1F3411F1A90F900E604FF /* Localizable.strings in Resources */,
 				E8C1F31B1F1A302700E604FF /* Assets.xcassets in Resources */,
 				E8C1F3191F1A302700E604FF /* Main.storyboard in Resources */,
 			);
@@ -159,8 +213,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8C1F33F1F1A903700E604FF /* UIAlertControllerHelper.swift in Sources */,
+				E8C1F3391F1A8B3C00E604FF /* ConcurrentOperation.swift in Sources */,
+				E8C1F33B1F1A8B7E00E604FF /* ServiceConfig.swift in Sources */,
+				E8C1F3431F1A917700E604FF /* StringHelper.swift in Sources */,
+				E8C1F3351F1A8B0500E604FF /* JsonParsor.swift in Sources */,
+				E8C1F3491F1A947A00E604FF /* ServiceManager.swift in Sources */,
+				E8C1F3331F1A8A7000E604FF /* PersistentDataHelper.swift in Sources */,
+				E8C1F33D1F1A8BFB00E604FF /* ActivityIndicator.swift in Sources */,
+				E8C1F32F1F1A8A1600E604FF /* UrlHandler.swift in Sources */,
 				E8C1F3161F1A302700E604FF /* GameViewController.swift in Sources */,
 				E8C1F3141F1A302700E604FF /* AppDelegate.swift in Sources */,
+				E8C1F3311F1A8A3900E604FF /* LogHelper.swift in Sources */,
+				E8C1F3451F1A923700E604FF /* UIColorExtension.swift in Sources */,
+				E8C1F3471F1A928E00E604FF /* PhotoModel.swift in Sources */,
+				E8C1F32C1F1A6FE900E604FF /* MemoryGame.swift in Sources */,
+				E8C1F3371F1A8B2500E604FF /* ErrorHandler.swift in Sources */,
 				E8C1F3271F1A466600E604FF /* BlockCVC.swift in Sources */,
 				E8C1F32A1F1A46C000E604FF /* Block.swift in Sources */,
 			);
