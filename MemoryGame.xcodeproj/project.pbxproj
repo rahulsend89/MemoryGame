@@ -12,6 +12,8 @@
 		E8C1F3191F1A302700E604FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8C1F3171F1A302700E604FF /* Main.storyboard */; };
 		E8C1F31B1F1A302700E604FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8C1F31A1F1A302700E604FF /* Assets.xcassets */; };
 		E8C1F31E1F1A302700E604FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8C1F31C1F1A302700E604FF /* LaunchScreen.storyboard */; };
+		E8C1F3271F1A466600E604FF /* BlockCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3261F1A466600E604FF /* BlockCVC.swift */; };
+		E8C1F32A1F1A46C000E604FF /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C1F3291F1A46C000E604FF /* Block.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		E8C1F31A1F1A302700E604FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8C1F31D1F1A302700E604FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E8C1F31F1F1A302700E604FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E8C1F3261F1A466600E604FF /* BlockCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockCVC.swift; sourceTree = "<group>"; };
+		E8C1F3291F1A46C000E604FF /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +58,9 @@
 		E8C1F3121F1A302700E604FF /* MemoryGame */ = {
 			isa = PBXGroup;
 			children = (
+				E8C1F3281F1A46AD00E604FF /* Model */,
 				E8C1F3131F1A302700E604FF /* AppDelegate.swift */,
+				E8C1F3251F1A463900E604FF /* View */,
 				E8C1F3151F1A302700E604FF /* GameViewController.swift */,
 				E8C1F3171F1A302700E604FF /* Main.storyboard */,
 				E8C1F31A1F1A302700E604FF /* Assets.xcassets */,
@@ -62,6 +68,22 @@
 				E8C1F31F1F1A302700E604FF /* Info.plist */,
 			);
 			path = MemoryGame;
+			sourceTree = "<group>";
+		};
+		E8C1F3251F1A463900E604FF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E8C1F3261F1A466600E604FF /* BlockCVC.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E8C1F3281F1A46AD00E604FF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E8C1F3291F1A46C000E604FF /* Block.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +161,8 @@
 			files = (
 				E8C1F3161F1A302700E604FF /* GameViewController.swift in Sources */,
 				E8C1F3141F1A302700E604FF /* AppDelegate.swift in Sources */,
+				E8C1F3271F1A466600E604FF /* BlockCVC.swift in Sources */,
+				E8C1F32A1F1A46C000E604FF /* Block.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
