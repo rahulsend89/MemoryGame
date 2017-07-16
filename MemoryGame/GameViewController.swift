@@ -8,7 +8,9 @@
 
 import UIKit
 
-class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MemoryGameDelegate {
+class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,
+    MemoryGameDelegate , DelayHelper
+{
     
     // MARK: Properties
     
@@ -139,13 +141,9 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func memoryGameDidStart() {
         collectionView.reloadData()
         collectionView.isUserInteractionEnabled = true
-        
-        let delayTime = DispatchTime.now() + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+        execute_after(2) { 
             self.memoryGameHideAll()
         }
-        
     }
     
     func memoryGameSelectRandom(selectImage: UIImage) {

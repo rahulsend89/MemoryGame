@@ -12,14 +12,14 @@ class PhotoModel: ModelClass {
     var page: Int?
     var pages: Int?
     var perpage: Int?
-    var total: Int?
+    var total: String?
     var photo: [FlickrPhotoModel]?
     
     func initWithData(_ dict: NSDictionary) {
         self.page = dict.value(forKey: "page") as? Int
-        self.pages = dict.value(forKey: "s") as? Int
+        self.pages = dict.value(forKey: "pages") as? Int
         self.perpage = dict.value(forKey: "perpage") as? Int
-        self.total = dict.value(forKey: "total") as? Int
+        self.total = dict.value(forKey: "total") as? String
         
         if let items = dict.value(forKey: "photo") {
             self.photo = JsonParser().iterateJsonObject(items as AnyObject, intoClass: FlickrPhotoModel.self) as? [FlickrPhotoModel]

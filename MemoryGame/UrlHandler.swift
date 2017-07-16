@@ -100,7 +100,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
     //            LogHelper.sharedInstance.log("ObjQue.operationCount : \(self.operation!.operationCount)")
     //        }
     //    }
-    func isConnectedToNetwork() -> Bool {
+    var isConnectedToNetwork = { () -> Bool in 
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
@@ -156,7 +156,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
             mutableRequest.cachePolicy = cachePolicy
             let request = mutableRequest as URLRequest
             let cachedResponse = URLCache.shared.cachedResponse(for: request)
-            if cachedResponse != nil {
+            if cachedResponse != nil && myURL.image {
                 let returndata: Data = cachedResponse!.data as Data
                 if let _intoClass = intoClass {
                     JsonParser().parseResponse(intoClass: _intoClass, data: returndata, handlerError: { (error) -> Void in
