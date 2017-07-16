@@ -1,5 +1,5 @@
 //
-//  Card.swift
+//  Block.swift
 //  MemoryGame
 //
 //  Created by Rahul Malik on 7/15/17.
@@ -25,10 +25,10 @@ class Block : CustomStringConvertible {
         self.image = image
     }
     
-    init(card:Block) {
-        self.id = (card.id as NSUUID).copy() as! UUID
-        self.shown = card.shown
-        self.image = card.image.copy() as! UIImage
+    init(block:Block) {
+        self.id = (block.id as NSUUID).copy() as! UUID
+        self.shown = block.shown
+        self.image = block.image.copy() as! UIImage
     }
     
     // MARK: - Methods
@@ -37,7 +37,7 @@ class Block : CustomStringConvertible {
         return "\(id.uuidString)"
     }
     
-    func equals(_ card: Block) -> Bool {
-        return (card.id == id)
+    func equals(_ block: Block) -> Bool {
+        return (block.id == id)
     }
 }

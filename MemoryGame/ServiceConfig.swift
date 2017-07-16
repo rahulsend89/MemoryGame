@@ -40,7 +40,8 @@ class ServiceConfig: NSObject {
         switch ServiceConfig.getCurrentEndPoint {
         case .flickr:
             return URLPointer(
-                appEndPointBaseURL: "https://api.flickr.com",imageBaseURL:"http://farm")
+                appEndPointBaseURL: "https://api.flickr.com",
+                imageBaseURL:"http://farm")
             }
     }()
     

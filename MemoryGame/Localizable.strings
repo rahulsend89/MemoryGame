@@ -9,3 +9,5 @@
 "NETWORK_CONNECTION_NA_MESSAGE" = "Please check your network settings and try again";
 "DEFAULT_ERROR_HEADER" = "System Error";
 "DEFAULT_ERROR_MESSAGE" = "Please Contact your Administrator";
+"AWESOME_MESSAGE"="Awesome!";
+"FINISHED_HEADER"="You finished the game :)";

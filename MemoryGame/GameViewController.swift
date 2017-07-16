@@ -39,7 +39,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func resetGame() {
         for cell in collectionView.visibleCells {
             if let cellBlock = cell as? BlockCVC{
-                cellBlock.card?.image = UIImage()
+                cellBlock.block?.image = UIImage()
             }
         }
         currentImage.image = UIImage()
@@ -64,13 +64,14 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         ServiceManager.sharedInstance.photoModelURL(ServiceConfig.sharedInstance.getMyPhotoUrl(), handlerError: { (error) in
             LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: error))")
             ErrorHandler.sharedInstance.ProcessError(error!)
-        }) { (returnObject) in
+        }) { [weak self] (returnObject) in
             guard let photoModelResponse: PhotoModel = returnObject as? PhotoModel else {
                 LogHelper.sharedInstance.log("Something is not right :(")
                 return
             }
             var arrayImages:[UIImage] = []
             var outDataArray = photoModelResponse.photo!
+            let parentWeakRef = self
             outDataArray.shuffle()
             for (photo) in outDataArray.prefix(MemoryGame.maxGrid) {
                 let configUrl = ServiceConfig.sharedInstance.getImage(
@@ -79,13 +80,13 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     photoId: photo.photoId ?? "",
                     secret: photo.secret ?? "")
                 ServiceManager.sharedInstance.imageWithURL(configUrl, handlerError: { (_error) in
-                    LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: _error))")
+                    LogHelper.sharedInstance.log("Error->gettingImages() Error: \(String(describing: _error))")
                     ErrorHandler.sharedInstance.ProcessError(_error!)
-                }) { (_responseData) in
-                    arrayImages.append(UIImage(data: _responseData as! Data)!)
+                }) { (imageData) in
+                    arrayImages.append(UIImage(data: imageData as! Data)!)
                     if(arrayImages.count == MemoryGame.maxGrid){
                         ActivityIndicator.sharedInstance.hide()
-                        self.gameController.newGame(arrayImages)
+                        parentWeakRef?.gameController.newGame(arrayImages)
                     }
                 }
             }
@@ -103,11 +104,11 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cardCell", for: indexPath) as! BlockCVC
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "blockCell", for: indexPath) as! BlockCVC
         cell.showBlock(true, animted: false)
         
-        guard let card = gameController.blockAtIndex(indexPath.item) else { return cell }
-        cell.card = card
+        guard let block = gameController.blockAtIndex(indexPath.item) else { return cell }
+        cell.block = block
         
         return cell
     }
@@ -118,7 +119,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.cellForItem(at: indexPath) as! BlockCVC
         
         if cell.shown { return }
-        gameController.didSelectBlock(cell.card)
+        gameController.didSelectBlock(cell.block)
         
         collectionView.deselectItem(at: indexPath, animated:true)
     }
@@ -135,7 +136,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     // MARK: - MemoryGameDelegate
     
-    func memoryGameDidStart(_ game: MemoryGame) {
+    func memoryGameDidStart() {
         collectionView.reloadData()
         collectionView.isUserInteractionEnabled = true
         
@@ -147,21 +148,21 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
-    func memoryGameSelectRandom(_ game: MemoryGame, selectImage: UIImage) {
+    func memoryGameSelectRandom(selectImage: UIImage) {
         currentImage.image = selectImage
     }
     
-    func memoryGame(_ game: MemoryGame, showBlocks cards: [Block]) {
-        for card in cards {
-            guard let index = gameController.indexForBlock(card) else { continue }
+    func memoryGame(showBlocks blocks: [Block]) {
+        for block in blocks {
+            guard let index = gameController.indexForBlock(block) else { continue }
             let cell = collectionView.cellForItem(at: IndexPath(item: index, section:0)) as! BlockCVC
             cell.showBlock(true, animted: true)
         }
     }
     
-    func memoryGame(_ game: MemoryGame, hideBlocks cards: [Block]) {
-        for card in cards {
-            guard let index = gameController.indexForBlock(card) else { continue }
+    func memoryGame(hideBlocks blocks: [Block]) {
+        for block in blocks {
+            guard let index = gameController.indexForBlock(block) else { continue }
             let cell = collectionView.cellForItem(at: IndexPath(item: index, section:0)) as! BlockCVC
             cell.showBlock(false, animted: true)
         }
@@ -175,20 +176,9 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    
-    func memoryGameDidEnd(_ game: MemoryGame) {
-        
-        let alertController = UIAlertController(
-            title: NSLocalizedString("Awesome!", comment: "title"),
-            message: String(format: "%@", NSLocalizedString("You finished the game :)", comment: "message")),
-            preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Dismiss", comment: "dismiss"), style: .cancel) { [weak self] (action) in
-            self?.resetGame()
+    func memoryGameDidEnd() {
+        UIAlertControllerHelper.sharedInstance.showDismissAlert("FINISHED_HEADER".localized, "AWESOME_MESSAGE".localized) {[weak self] _ in
+            self?.resetGame();
         }
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true) { }
     }
-
 }

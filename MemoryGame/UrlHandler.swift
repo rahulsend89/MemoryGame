@@ -62,20 +62,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
     deinit {
         appSession?.invalidateAndCancel()
     }
-    func getDocumentsDirectory() -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-    func pathValueWithName(filename: NSString, pathName: NSString) -> String {
-        var documentsDirectory: String = ""
-        if pathName == "doc" {
-            documentsDirectory = "\(getDocumentsDirectory())\(filename)"
-        } else if pathName == "temp" {
-            documentsDirectory = "\(NSTemporaryDirectory())\(filename)"
-        }
-        return documentsDirectory
-    }
+    
     override init() {
         super.init()
         let operationQueue: OperationQueue = OperationQueue()
@@ -178,7 +165,6 @@ class UrlHandler: NSObject, URLSessionDelegate {
                         handlerResponse(returnObject)
                     })
                 } else {
-                    LogHelper.sharedInstance.log("UrlHandler->getURLResponse(...) response_: \(String(describing: cachedResponse))")
                     handlerResponse(returndata as AnyObject)
                 }
                 return
@@ -226,7 +212,6 @@ class UrlHandler: NSObject, URLSessionDelegate {
                 })
                 currentOperations?.name = myURL.path
                 self.operation?.addOperation(currentOperations!)
-                
             }
         } else {
             handlerError(makeError("notReachable"))

@@ -14,11 +14,11 @@ import UIKit.UIImage
 // MARK: - MemoryGameDelegate
 
 protocol MemoryGameDelegate {
-    func memoryGameDidStart(_ game: MemoryGame)
-    func memoryGame(_ game: MemoryGame, showBlocks blocks: [Block])
-    func memoryGame(_ game: MemoryGame, hideBlocks blocks: [Block])
-    func memoryGameSelectRandom(_ game: MemoryGame,selectImage:UIImage)
-    func memoryGameDidEnd(_ game: MemoryGame)
+    func memoryGameDidStart()
+    func memoryGame(showBlocks blocks: [Block])
+    func memoryGame(hideBlocks blocks: [Block])
+    func memoryGameSelectRandom(selectImage:UIImage)
+    func memoryGameDidEnd()
     
 }
 
@@ -52,12 +52,12 @@ class MemoryGame {
         startTime = Date.init()
         isPlaying = true
         selectRandomImage()
-        delegate?.memoryGameDidStart(self)
+        delegate?.memoryGameDidStart()
     }
     
     func selectRandomImage(){
         currentVal = randomBlockArray[Int(arc4random_uniform(UInt32(randomBlockArray.count)))];
-        delegate?.memoryGameSelectRandom(self, selectImage: (blockAtIndex(currentVal)?.image)!)
+        delegate?.memoryGameSelectRandom(selectImage: (blockAtIndex(currentVal)?.image)!)
     }
     
     func stopGame() {
@@ -70,7 +70,7 @@ class MemoryGame {
     func didSelectBlock(_ block: Block?) {
         guard let block = block else { return }
         
-        delegate?.memoryGame(self, showBlocks: [block])
+        delegate?.memoryGame(showBlocks: [block])
         var selected = false
         if indexForBlock(block) == currentVal {
             selected = true
@@ -79,7 +79,7 @@ class MemoryGame {
         } else {
             let delayTime = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                self.delegate?.memoryGame(self, hideBlocks:[block])
+                self.delegate?.memoryGame(hideBlocks:[block])
             }
         }
         if blocksShown.count == blocks.count {
@@ -111,7 +111,7 @@ class MemoryGame {
     
     fileprivate func finishGame() {
         isPlaying = false
-        delegate?.memoryGameDidEnd(self)
+        delegate?.memoryGameDidEnd()
     }
     
     fileprivate func lastBlock() -> Bool {

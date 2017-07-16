@@ -14,10 +14,10 @@ class BlockCVC: UICollectionViewCell {
     @IBOutlet weak var frontImageView: UIImageView!
     @IBOutlet weak var backImageView: UIImageView!
     
-    var card:Block? {
+    var block:Block? {
         didSet {
-            guard let card = card else { return }
-            frontImageView.image = card.image
+            guard let block = block else { return }
+            frontImageView.image = block.image
         }
     }
     
