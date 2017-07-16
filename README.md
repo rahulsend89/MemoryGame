@@ -12,6 +12,12 @@ Basic MemoryGame iOS app in Swift
 
 Rahul Malik, rahul.send89@gmail.com
 
+## Requirements
+
+- iOS 10.3+ / Mac OS X 10.12+
+- Xcode 8.3+
+- Swift 3.0+
+
 ## License
 
 MemoryGame is available under the MIT license. See the LICENSE file for more info.
