@@ -45,9 +45,12 @@ class ServiceConfig: NSObject {
     }()
     
     static let sharedInstance = ServiceConfig()
-    func getImage(returnPath: String) -> ConfigURL{
-        return ConfigURL(baseURL: urlString.imageBaseURL, path: returnPath , image:true)
+    
+    func getImage(farm:Int,server:String,photoId:String,secret:String,size:String="m") -> ConfigURL{
+        let imageString = "\(farm ).staticflickr.com/\(server)/\(photoId)_\(secret)_\(size).jpg"
+        return ConfigURL(baseURL: urlString.imageBaseURL, path: imageString , image:true)
     }
+    
     func getMyPhotoUrl() -> ConfigURL {
         let returnPath: String = "/services/rest/"
         let parameters = ["method":"flickr.photos.search",

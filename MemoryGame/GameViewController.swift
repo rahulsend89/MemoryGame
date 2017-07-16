@@ -73,7 +73,12 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             var outDataArray = photoModelResponse.photo!
             outDataArray.shuffle()
             for (photo) in outDataArray.prefix(MemoryGame.maxGrid) {
-                ServiceManager.sharedInstance.imageWithURL(ServiceConfig.sharedInstance.getImage(returnPath: photo.imageString), handlerError: { (_error) in
+                let configUrl = ServiceConfig.sharedInstance.getImage(
+                    farm: photo.farm ?? 0,
+                    server: photo.server ?? "",
+                    photoId: photo.photoId ?? "",
+                    secret: photo.secret ?? "")
+                ServiceManager.sharedInstance.imageWithURL(configUrl, handlerError: { (_error) in
                     LogHelper.sharedInstance.log("Error->gettingData() Error: \(String(describing: _error))")
                     ErrorHandler.sharedInstance.ProcessError(_error!)
                 }) { (_responseData) in

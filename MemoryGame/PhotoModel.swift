@@ -40,17 +40,7 @@ class FlickrPhotoModel : ModelClass{
     var server: String?
     var title: String?
     var size : String = "m";
-    var photoUrl: URL {
-        return self.flickrImageURL()
-    }
-    var imageString : String{
-        return "\(farm ?? 0).staticflickr.com/\(server ?? "")/\(photoId ?? "")_\(secret ?? "")_\(size).jpg"
-    }
-    
-    fileprivate func flickrImageURL() -> URL {
-        return URL(string: imageString)!
-    }
-    
+   
     func initWithData(_ dict: NSDictionary) {
         self.photoId = dict.value(forKey: "id") as? String
         self.farm = dict.value(forKey: "farm") as? Int
