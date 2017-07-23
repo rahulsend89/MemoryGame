@@ -10,7 +10,7 @@ import Foundation
 
 class ConcurrentOperation: BlockOperation {
     var task: URLSessionDataTask?
-    lazy var completion:()->() = {
+    lazy var completion:() -> Void = {
         self.completeOperation()
     }
     func completeOperation() {
@@ -18,12 +18,12 @@ class ConcurrentOperation: BlockOperation {
     }
     enum State: String {
         case Ready, Executing, Finished
-        
+
         fileprivate var keyPath: String {
             return "is" + rawValue
         }
     }
-    
+
     var state = State.Ready {
         willSet {
             willChangeValue(forKey: newValue.keyPath)
@@ -41,29 +41,29 @@ extension ConcurrentOperation {
     override var isReady: Bool {
         return super.isReady && state == .Ready
     }
-    
+
     override var isExecuting: Bool {
         return state == .Executing
     }
-    
+
     override var isFinished: Bool {
         return state == .Finished
     }
-    
+
     override var isAsynchronous: Bool {
         return true
     }
-    
+
     override func start() {
         if isCancelled {
             state = .Finished
             return
         }
-        
+
         main()
         state = .Executing
     }
-    
+
     override func cancel() {
         state = .Finished
         self.task?.cancel()

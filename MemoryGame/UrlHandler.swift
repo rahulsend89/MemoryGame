@@ -13,7 +13,6 @@ import SystemConfiguration
 import UIKit
 import MobileCoreServices
 
-
 let REQUESTTIMEOUT: TimeInterval = 30
 let successStatusCode: Int = 200
 
@@ -36,33 +35,30 @@ extension ModelClass {
     }
 }
 class UrlHandler: NSObject, URLSessionDelegate {
-    
-    
-    
+
     struct EncodingCharacters {
         static let CRLF = "\r\n"
     }
-    
+
     internal typealias HandlerError = (_ error: NSError?) -> Void
     internal typealias HandlerResponse = (_ returnObject: AnyObject?) -> Void
-    
+
     var operation: OperationQueue?
     var appSession: URLSession?
-    
-    
+
     static let sharedInstance = UrlHandler()
-    
+
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
-    
+
     func queueName() -> String {
         return "manager-queue"
     }
     deinit {
         appSession?.invalidateAndCancel()
     }
-    
+
     override init() {
         super.init()
         let operationQueue: OperationQueue = OperationQueue()
@@ -87,7 +83,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
         var uaString: String = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")!
         uaString = uaString.appendingFormat("GE_HealthConnect_NATIVE_APPLICATION;TYPE=IOS_IPHONE;VERSION=%@", appVersionString ?? "")
         LogHelper.sharedInstance.log("UrlHandler->setUserAgent() RegisterDefaults:\(uaString)")
-        UserDefaults.standard.register(defaults: ["UserAgent":uaString])
+        UserDefaults.standard.register(defaults: ["UserAgent": uaString])
     }
     //    func startObserveingOperations() {
     //        self.operation?.addObserver(self, forKeyPath: "operations", options: .New, context: nil)
@@ -100,11 +96,11 @@ class UrlHandler: NSObject, URLSessionDelegate {
     //            LogHelper.sharedInstance.log("ObjQue.operationCount : \(self.operation!.operationCount)")
     //        }
     //    }
-    var isConnectedToNetwork = { () -> Bool in 
+    var isConnectedToNetwork = { () -> Bool in
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        
+
         guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 SCNetworkReachabilityCreateWithAddress(nil, $0)
@@ -112,18 +108,18 @@ class UrlHandler: NSObject, URLSessionDelegate {
         }) else {
             return false
         }
-        
+
         var flags: SCNetworkReachabilityFlags = []
         if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
             return false
         }
-        
+
         let isReachable = flags.contains(.reachable)
         let needsConnection = flags.contains(.connectionRequired)
-        
+
         return (isReachable && !needsConnection)
     }
-    
+
     func getFileResponse(_ myurl: String, intoClass: ModelClass.Type, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) {
         let path = Bundle.main.path(forResource: myurl, ofType: "json", inDirectory: nil)
         DispatchQueue.global(qos: .background).async {
@@ -147,7 +143,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
             }
         }
     }
-    
+
     func getURLResponse(_ myURL: ServiceConfig.ConfigURL, intoClass: ModelClass.Type?=nil, method: String="GET", handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) {
         if isConnectedToNetwork() {
             //let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
@@ -168,14 +164,14 @@ class UrlHandler: NSObject, URLSessionDelegate {
                     handlerResponse(returndata as AnyObject)
                 }
                 return
-            }else{
+            } else {
                 var currentOperations: ConcurrentOperation?
                 currentOperations = ConcurrentOperation(block: { () -> Void in
                     let task = self.appSession?.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                         currentOperations!.completion()
                         if error == nil {
                             if let response_: HTTPURLResponse = response as? HTTPURLResponse {
-                                LogHelper.sharedInstance.log("response_ : \(response_)");
+                                LogHelper.sharedInstance.log("response_ : \(response_)")
                                 if response_.statusCode != 404 {
                                     if data?.count == 0 {
                                         handlerResponse(response_)
@@ -217,17 +213,17 @@ class UrlHandler: NSObject, URLSessionDelegate {
             handlerError(makeError("notReachable"))
             return
         }
-        
+
     }
-    
+
     func requestWithBaseMethod(_ myURL: ServiceConfig.ConfigURL, method: String="GET", parameters: [String : String]?) -> NSMutableURLRequest {
         let _baseURL = URL(string: myURL.baseURL)
         let path: String = myURL.path
         let encodedUrl: String? = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let url: URL?
-        if(myURL.image){
+        if(myURL.image) {
            url = URL(string: "\(myURL.baseURL)\(encodedUrl ?? "")")
-        }else{
+        } else {
            url = URL(string: encodedUrl!, relativeTo: _baseURL)
         }
         let request: NSMutableURLRequest = NSMutableURLRequest(url:url!, cachePolicy: NSURLRequest.CachePolicy.reloadRevalidatingCacheData,
@@ -239,20 +235,20 @@ class UrlHandler: NSObject, URLSessionDelegate {
         LogHelper.sharedInstance.log("UrlHandler->requestWithBaseMethod() request: \(request)")
         return request
     }
-    
+
     fileprivate func query(_ parameters: [String: String]) -> String {
         var components: [(String, String)] = []
-        
+
         for key in parameters.keys.sorted(by: <) {
             let value = parameters[key]!
             components += queryComponents(key, value as AnyObject)
         }
         return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
     }
-    
+
     fileprivate func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)] {
         var components: [(String, String)] = []
-        
+
         if let dictionary = value as? [String: AnyObject] {
             for (nestedKey, value) in dictionary {
                 components += queryComponents("\(key)[\(nestedKey)]", value)
@@ -264,10 +260,10 @@ class UrlHandler: NSObject, URLSessionDelegate {
         } else {
             components.append((escapeString(key), escapeString("\(value)")))
         }
-        
+
         return components
     }
-    
+
     fileprivate func escapeString(_ string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/"
         let subDelimitersToEncode = "!$&'()*+,;="
@@ -278,8 +274,8 @@ class UrlHandler: NSObject, URLSessionDelegate {
         let escaped = string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
         return escaped
     }
-    
-    func addParameters(_ parameters: [String: String], toRequest requestReference: NSMutableURLRequest!) -> Void {
+
+    func addParameters(_ parameters: [String: String], toRequest requestReference: NSMutableURLRequest!) {
         let request: NSMutableURLRequest = requestReference
         let stringBody: String? = parameters["string"]
         if stringBody != nil {

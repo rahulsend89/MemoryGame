@@ -9,11 +9,11 @@
 import UIKit
 
 protocol DelayHelper {
-    func execute_after(_ delayInSeconds: TimeInterval, block: @escaping ()->())
+    func execute_after(_ delayInSeconds: TimeInterval, block: @escaping () -> Void)
 }
 
-extension DelayHelper{
-    func execute_after(_ delayInSeconds: TimeInterval, block: @escaping ()->()) {
+extension DelayHelper {
+    func execute_after(_ delayInSeconds: TimeInterval, block: @escaping () -> Void) {
         let popTime = DispatchTime.now() + Double(Int64( delayInSeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: popTime, execute: block)
     }

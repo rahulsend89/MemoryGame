@@ -13,15 +13,15 @@ import Nimble
 @testable import MemoryGame
 
 class UrlHandler: QuickSpec {
-    
+
     let timeOut: Double = 3.0
-    
+
     override func spec() {
         beforeEach {
-            StubsManager.removeAllStubs()            
+            StubsManager.removeAllStubs()
         }
         it("photoModelURL response with test.json") {
-            let _ = StubsManager.stubRequestsPassingTest(withStubResponse: { (_) -> StubResponse in
+            _ = StubsManager.stubRequestsPassingTest(withStubResponse: { (_) -> StubResponse in
                 return StubResponse(data:StubsManager.getDataFromFile("test"), statusCode: 200)
             })
             var responseObj: PhotoModel?

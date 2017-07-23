@@ -6,7 +6,6 @@
 //  Copyright © 2017 aceenvisage. All rights reserved.
 //
 
-
 import Foundation
 
 @testable import MemoryGame
@@ -17,10 +16,10 @@ open class StubsManager {
 
     //helper function
 
-    class func getDataFromFile(_ myurl: String)->Data {
+    class func getDataFromFile(_ myurl: String) -> Data {
         let path = Bundle.main.path(forResource: myurl, ofType: "json", inDirectory: nil)!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: path),
-            options: NSData.ReadingOptions.uncached)
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path),
+            options: NSData.ReadingOptions.uncached) else {return }
         return data
     }
 

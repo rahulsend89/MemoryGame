@@ -10,10 +10,10 @@ import Foundation
 import ObjectiveC.runtime
 
 typealias closureAny = () -> Any?
-typealias closureVoid = () -> ()
+typealias closureVoid = () -> Void
 
 protocol TestableClass: class {
-    func ifOverride<T: Any>(_ functionName: String, funcCall: ()->T) -> T
+    func ifOverride<T: Any>(_ functionName: String, funcCall: () -> T) -> T
 }
 extension TestableClass {
     func callFunction(_ functionName: String = #function, funcCall: closureVoid)->Any? {
@@ -23,9 +23,9 @@ extension TestableClass {
         }
         return returnVal.1
     }
-    func ifOverride<T: Any>(_ functionName: String = #function, funcCall: ()->T) -> T {
+    func ifOverride<T: Any>(_ functionName: String = #function, funcCall: () -> T) -> T {
         var parentReturnValue: T?
-        if let overrideReturnVal = (callFunction(functionName) { closureVoid in
+        if let overrideReturnVal = (callFunction(functionName) { _ in
             parentReturnValue = funcCall()
             }) as? T {
                 return overrideReturnVal
@@ -66,15 +66,15 @@ class MockHelper: NSObject {
     var verifyCalledFunction: [String] = [String]()
     var stubFunctions: [(String, MockActionable, Bool)] = [(String, MockActionable, Bool)]()
     static let sharedInstance = MockHelper()
-    
-    class func appendMethodByblock(_ aClass: AnyClass, sel: Selector, usingBlock aBlock: @convention(block)()->()) {
+
+    class func appendMethodByblock(_ aClass: AnyClass, sel: Selector, usingBlock aBlock: @convention(block)() -> Void) {
         let objBlock = unsafeBitCast(aBlock, to: AnyObject.self)
         let myIMP = imp_implementationWithBlock(objBlock)
         let method = class_getInstanceMethod(aClass, sel)
         method_setImplementation(method, myIMP)
     }
 
-    class func appendMethodByblockInClass(_ aClass: AnyClass, newSelectorString: String, usingBlock aBlock: @convention(block)()->()) {
+    class func appendMethodByblockInClass(_ aClass: AnyClass, newSelectorString: String, usingBlock aBlock: @convention(block)() -> Void) {
         let objBlock = unsafeBitCast(aBlock, to: AnyObject.self)
         let selNew = sel_registerName(newSelectorString)
         let myIMP = imp_implementationWithBlock(objBlock)
@@ -84,7 +84,7 @@ class MockHelper: NSObject {
     func appendMethodByMoreBlock(_ obj: NSObject, sel: Selector) {
         let aClass: AnyClass = type(of: obj)
         let newSelectorString = "_\(sel)"
-        let aBlock: @convention(block)()->() = {
+        let aBlock: @convention(block)() -> Void = {
             self.calledFunction.append("\(sel)")
             obj.perform(Selector("\(sel)"))
         }
@@ -155,13 +155,13 @@ class MockHelper: NSObject {
         }
         return functionReturnName
     }
-    class func mockMyObject<O: AnyObject, C: TestableClass>(_ currentObject: O, _ mockType: C.Type)->Void {
+    class func mockMyObject<O: AnyObject, C: TestableClass>(_ currentObject: O, _ mockType: C.Type) {
         if mockType is O.Type {
             object_setClass(currentObject, mockType)
         }
     }
 
-    func verify(_ str: String)->Bool {
+    func verify(_ str: String) -> Bool {
         let itemExists = calledFunction.contains(str)
         return itemExists
     }

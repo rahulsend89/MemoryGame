@@ -11,32 +11,41 @@ import UIKit
 import Foundation
 import UIKit.UIImage
 
-class Block : CustomStringConvertible {
-    
+class Block: CustomStringConvertible {
+
     // MARK: - Properties
-    
-    var id:UUID = UUID.init()
-    var shown:Bool = false
-    var image:UIImage
-    
+
+    var id: UUID = UUID.init()
+    var shown: Bool = false
+    var image: UIImage
+
     // MARK: - Lifecycle
-    
-    init(image:UIImage) {
+
+    init(image: UIImage) {
         self.image = image
     }
-    
-    init(block:Block) {
-        self.id = (block.id as NSUUID).copy() as! UUID
+
+    init(block: Block) {
+        if let _id = (block.id as NSUUID).copy() as? UUID {
+            self.id = _id
+        }else{
+            self.id = UUID.init()
+        }
+        if let _image = block.image.copy() as? UIImage {
+            self.image = _image
+        }else{
+            self.image = UIImage()
+        }
         self.shown = block.shown
-        self.image = block.image.copy() as! UIImage
+        
     }
-    
+
     // MARK: - Methods
-    
+
     var description: String {
         return "\(id.uuidString)"
     }
-    
+
     func equals(_ block: Block) -> Bool {
         return (block.id == id)
     }

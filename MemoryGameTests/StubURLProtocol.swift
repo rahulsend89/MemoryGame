@@ -8,7 +8,7 @@
 
 import Foundation
 
-class StubURLProtocol: URLProtocol,DelayHelper {
+class StubURLProtocol: URLProtocol, DelayHelper {
 
     var stopped = false
 
@@ -39,7 +39,7 @@ class StubURLProtocol: URLProtocol,DelayHelper {
             redirectLocationURL = URL(string:redirectLocation)
         }
 
-        if let redirectLocationURL_ = redirectLocationURL , responseStub.statusCode >= 300 && responseStub.statusCode < 400 {
+        if let redirectLocationURL_ = redirectLocationURL, responseStub.statusCode >= 300 && responseStub.statusCode < 400 {
             let redirectRequest = URLRequest(url: redirectLocationURL_)
 
             execute_after(responseStub.requestTime) {
