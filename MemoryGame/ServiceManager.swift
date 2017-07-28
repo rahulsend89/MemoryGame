@@ -8,13 +8,13 @@
 
 import Foundation
 class ServiceManager: NSObject {
-    
+
     internal typealias HandlerError = (_ error: NSError?) -> Void
     internal typealias HandlerResponse = (_ returnObject: AnyObject?) -> Void
-    
+
     static let sharedInstance = ServiceManager()
-    
-    func imageWithURL (_ myURL: ServiceConfig.ConfigURL, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) -> Void {
+
+    func imageWithURL (_ myURL: ServiceConfig.ConfigURL, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) {
         UrlHandler.sharedInstance.getURLResponse(myURL, handlerError: { (error) -> Void in
             DispatchQueue.main.async {
                 handlerError(error)
@@ -26,8 +26,8 @@ class ServiceManager: NSObject {
             }
         }
     }
-    
-    func photoModelURL (_ myURL: ServiceConfig.ConfigURL, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) -> Void {
+
+    func photoModelURL (_ myURL: ServiceConfig.ConfigURL, handlerError: @escaping HandlerError, handlerResponse: @escaping HandlerResponse) {
         UrlHandler.sharedInstance.getURLResponse(myURL, intoClass: PhotoModel.self, handlerError: { (error) -> Void in
             DispatchQueue.main.async {
                 handlerError(error)

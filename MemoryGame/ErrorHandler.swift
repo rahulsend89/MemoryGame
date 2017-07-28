@@ -32,14 +32,14 @@ func makeErrorForInvalidToken(_ text: String="") -> NSError {
 }
 
 class ErrorHandler: NSObject {
-    
+
     static let sharedInstance = ErrorHandler()
-    
+
     func ProcessError(_ error: NSError) {
         ActivityIndicator.sharedInstance.hide()
-        
+
         //"An error has occurred, please try again.""
-        
+
         switch error.code {
         case ErrorCode.networkErrorCode:
             UIAlertControllerHelper.sharedInstance.showAlert("NETWORK_CONNECTION_NA_MESSAGE".localized, "NETWORK_CONNECTION_NA_HEADER".localized)

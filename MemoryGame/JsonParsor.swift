@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 import UIKit
 
 class JsonParser: NSObject {
@@ -35,25 +34,25 @@ class JsonParser: NSObject {
         }
         return paraResponseJson
     }
-    
+
     func parseDictionary(_ dictionary: NSDictionary, intoClass classObject: ModelClass.Type) -> AnyObject {
         let returnObject: AnyObject =  classObject.init(dictionary: dictionary)
         return returnObject
     }
-    
+
     func parseResponse(intoClass parseClass: ModelClass.Type, data: Data!, handlerError:(_ error: NSError?) -> Void, handlerResponse:(_ returnObject: AnyObject?) -> Void) {
         let jsonResponse: AnyObject! = self.parseToJSON(data)
         LogHelper.sharedInstance.log("JsonParser->parseResponse() JsonResponse: \(jsonResponse)")
         if (jsonResponse == nil) || jsonResponse.isKind(of: NSError.self) {
             handlerError(makeErrorWithDifferentCode("jsonResponseError"))
-            LogHelper.sharedInstance.log("JsonParser->parseResponse() Error: Json Response Error : \(NSString(data: data,encoding: 4)!)")
+            LogHelper.sharedInstance.log("JsonParser->parseResponse() Error: Json Response Error : \(NSString(data: data, encoding: 4)!)")
             return
         }
-        
+
         let returnObj: AnyObject = self.parseJson(jsonResponse, inToClass: parseClass, keypath: "photos")
         handlerResponse(returnObj)
     }
-    
+
     func parseToJSON(_ data: Data) -> AnyObject? {
         var jsonResponse: AnyObject
         do {
@@ -64,7 +63,7 @@ class JsonParser: NSObject {
             return nil
         }
     }
-    
+
     func iterateJsonObject(_ json: AnyObject?, intoClass classObject: ModelClass.Type) -> AnyObject! {
         if json != nil {
             if let jsonArray = json as? [NSDictionary] {
@@ -78,7 +77,7 @@ class JsonParser: NSObject {
         }
         return nil
     }
-    
+
     func parserJsonArray(_ jsonArray: [NSDictionary], intoClass classObject: ModelClass.Type) -> [AnyObject] {
         var array: [AnyObject] = [AnyObject]()
         for (_, item) in jsonArray.enumerated() {

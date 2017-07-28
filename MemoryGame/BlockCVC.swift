@@ -10,40 +10,40 @@ import UIKit.UICollectionViewCell
 
 class BlockCVC: UICollectionViewCell {
     // MARK: - Properties
-    
+
     @IBOutlet weak var frontImageView: UIImageView!
     @IBOutlet weak var backImageView: UIImageView!
-    
-    var block:Block? {
+
+    var block: Block? {
         didSet {
             guard let block = block else { return }
             frontImageView.image = block.image
         }
     }
-    
+
     fileprivate(set) var shown: Bool = false
-    
+
     // MARK: - Methods
-    
+
     func showBlock(_ show: Bool, animted: Bool) {
         frontImageView.isHidden = false
         backImageView.isHidden = false
         shown = show
-        
+
         if animted {
             if show {
                 UIView.transition(from: backImageView,
                                   to: frontImageView,
                                   duration: 0.5,
                                   options: [.transitionFlipFromRight, .showHideTransitionViews],
-                                  completion: { (finished: Bool) -> () in
+                                  completion: { (_: Bool) -> Void in
                 })
             } else {
                 UIView.transition(from: frontImageView,
                                   to: backImageView,
                                   duration: 0.5,
                                   options: [.transitionFlipFromRight, .showHideTransitionViews],
-                                  completion:  { (finished: Bool) -> () in
+                                  completion: { (_: Bool) -> Void in
                 })
             }
         } else {
@@ -56,7 +56,5 @@ class BlockCVC: UICollectionViewCell {
             }
         }
     }
-    
-    
 
 }

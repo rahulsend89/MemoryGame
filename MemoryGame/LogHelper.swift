@@ -8,9 +8,9 @@
 
 import Foundation
 class LogHelper: NSObject {
-    
+
     static let sharedInstance = LogHelper()
-    
+
     func log(_ str: Any) {
         if PersistentDataHelper.userDefaults.bool(forKey: PersistentDataHelper.DefaultStoreKey.isLogEnableKey) {
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {

@@ -27,23 +27,23 @@ extension UIApplication {
 }
 
 class ActivityViewController: UIViewController {
-    internal override var preferredStatusBarStyle : UIStatusBarStyle {
+    internal override var preferredStatusBarStyle: UIStatusBarStyle {
         if let rootViewController = UIApplication.shared.delegate?.window??.rootViewController {
             return rootViewController.preferredStatusBarStyle
         } else {
             return .default
         }
     }
-    
-    internal override var prefersStatusBarHidden : Bool {
+
+    internal override var prefersStatusBarHidden: Bool {
         if let rootViewController = UIApplication.shared.delegate?.window??.rootViewController {
             return rootViewController.prefersStatusBarHidden
         } else {
             return false
         }
     }
-    
-    internal override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {
+
+    internal override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         if let rootViewController = UIApplication.shared.delegate?.window??.rootViewController {
             return rootViewController.preferredStatusBarUpdateAnimation
         } else {
@@ -61,13 +61,13 @@ class ActivityIndicator: NSObject {
         let loadingViewBackgroundColor = UIColor(hex: 0x444444, alpha: 0.7)
         let actIndFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
     }
-    
+
     var blockUI = true
-    
+
     fileprivate let config: Config = Config()
-    
+
     fileprivate var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    
+
     func getWindow() -> UIWindow {
         if self.window == nil {
             let _window = UIWindow(frame: UIScreen.main.bounds)
@@ -81,16 +81,16 @@ class ActivityIndicator: NSObject {
         }
         return window!
     }
-    
+
     static let sharedInstance = ActivityIndicator()
-    
+
     func show() {
         if let topVC = getWindow().rootViewController {
             getWindow().makeKeyAndVisible()
             showActivityIndicatory(topVC.view)
         }
     }
-    
+
     func hide() {
         if let topVC = getWindow().rootViewController {
             hideActivityIndicator(topVC.view)
@@ -117,7 +117,7 @@ class ActivityIndicator: NSObject {
         loadingView.backgroundColor = config.loadingViewBackgroundColor
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
-        
+
         activityIndicator.frame = config.actIndFrame
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
         activityIndicator.center = CGPoint(x: loadingView.frame.size.width / 2,
@@ -130,7 +130,7 @@ class ActivityIndicator: NSObject {
         activityIndicator.startAnimating()
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
     }
-    
+
     func hideActivityIndicator(_ uiView: UIView) {
         activityIndicator.stopAnimating()
         if let container = uiView.viewWithTag(config.containerTag) {
