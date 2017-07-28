@@ -84,7 +84,7 @@ class MemoryGame: DelayHelper {
         if blocksShown.count == blocks.count {
             finishGame()
         } else {
-            if(selected) {
+            if selected {
                 selectRandomImage()
             }
         }

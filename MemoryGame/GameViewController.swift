@@ -87,7 +87,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 }) { (imageData) in
                     guard let _imageDataVal = imageData as? Data, let _imageData = UIImage(data: _imageDataVal) else {return}
                     arrayImages.append(_imageData )
-                    if(arrayImages.count == MemoryGame.maxGrid) {
+                    if arrayImages.count == MemoryGame.maxGrid {
                         ActivityIndicator.sharedInstance.hide()
                         parentWeakRef?.gameController.newGame(arrayImages)
                     }

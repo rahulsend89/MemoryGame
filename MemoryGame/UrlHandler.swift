@@ -221,7 +221,7 @@ class UrlHandler: NSObject, URLSessionDelegate {
         let path: String = myURL.path
         let encodedUrl: String? = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let url: URL?
-        if(myURL.image) {
+        if myURL.image {
            url = URL(string: "\(myURL.baseURL)\(encodedUrl ?? "")")
         } else {
            url = URL(string: encodedUrl!, relativeTo: _baseURL)

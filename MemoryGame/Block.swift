@@ -28,16 +28,16 @@ class Block: CustomStringConvertible {
     init(block: Block) {
         if let _id = (block.id as NSUUID).copy() as? UUID {
             self.id = _id
-        }else{
+        } else {
             self.id = UUID.init()
         }
         if let _image = block.image.copy() as? UIImage {
             self.image = _image
-        }else{
+        } else {
             self.image = UIImage()
         }
         self.shown = block.shown
-        
+
     }
 
     // MARK: - Methods
