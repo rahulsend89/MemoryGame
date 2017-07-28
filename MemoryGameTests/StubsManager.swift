@@ -19,7 +19,7 @@ open class StubsManager {
     class func getDataFromFile(_ myurl: String) -> Data {
         let path = Bundle.main.path(forResource: myurl, ofType: "json", inDirectory: nil)!
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: path),
-            options: NSData.ReadingOptions.uncached) else {return }
+            options: NSData.ReadingOptions.uncached) else {return NSData() as Data}
         return data
     }
 
